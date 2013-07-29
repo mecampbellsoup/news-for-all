@@ -1,0 +1,19 @@
+// Place all the styles related to the stories controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+section {
+  ul{
+    list-style: none;
+  }
+}
+
+p {
+  line-height: 1.0;
+  margin-top: 0em;
+  margin-bottom: 2em;
+}
+
+li:hover {
+  color: #666;
+}

@@ -1,0 +1,10 @@
+<article>
+  <li>
+  <header>
+    <%= link_to story.title, story.link, class: "tiny button dropdown secondary" %>
+  </header>
+  <p>Upvotes: <%= story.upvotes %> | 
+  Category: <%= story.category %> |
+  <%= link_to "Comments", story %></p>
+  </li>
+</article>

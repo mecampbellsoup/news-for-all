@@ -1,0 +1,37 @@
+<% if @story.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@story.errors.count, "error") %> prohibited this story from being saved:</h2>
+
+      <ul>
+      <% @story.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+ <% end %>
+
+<%= form_for @story do |f| %>
+  <fieldset>
+    
+    <div class="row collapse">
+      <div class="small-3 columns"><%= f.label :title, class: "right inline" %></div>
+      <div class="small-9 columns"><%= f.text_field :title, placeholder: "insert title" %></div>
+    </div>
+
+    <div class="row collapse">
+      <div class="small-3 columns"><%= f.label :link, class: "right inline" %></div>
+      <div class="small-9 columns"><%= f.text_field :link, placeholder: "insert url" %></div>
+    </div>
+
+    <div class="row collapse">
+      <div class="small-3 columns"><%= f.label :category, class: "right inline" %></div>
+      <div class="small-9 columns"><%= f.text_field :category, placeholder: "insert category" %></div>
+    </div>
+
+    <div class="row collapse">
+      <div class="small-9 small-offset-3 columns"><%= f.submit "Go!" %></div>
+    </div>
+
+  </fieldset>
+ 
+<% end %>
