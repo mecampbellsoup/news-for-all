@@ -10,4 +10,13 @@ class Story < ActiveRecord::Base
   def self.search_for(query)
     where('title LIKE :query OR category LIKE :query', query: "%#{query}%")
   end
+
+  def self.get_remote_stories(type=nil, sr="worldnews")
+    response = RestClient.get("http://reddit.com/r/#{sr}/#{type}.json")
+    parsed_response = JSON.load(response)
+    parsed_response["data"]["children"].map do |reddit|
+      { title: reddit["data"]["title"], category: reddit["data"]["subreddit"], link: reddit["data"]["url"] }
+    end
+  end
+
 end

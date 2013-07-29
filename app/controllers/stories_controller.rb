@@ -1,5 +1,6 @@
 class StoriesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
+  
   def index
     @stories = Story.all
   end
@@ -7,6 +8,15 @@ class StoriesController < ApplicationController
   def show
     @story = Story.find params[:id]
     @comment = @story.comments.new
+  end
+  
+  def store_from_reddit
+    @stories = Story.get_remote_stories
+    if @stories.save
+      redirect_to @stories
+    else
+      render :index
+    end
   end
 
   def new
@@ -23,14 +33,6 @@ class StoriesController < ApplicationController
       render :new
     end
   end
-
-  # def remote_stories(type:"hot", sr:"politics")
-  #   response = RestClient.get("http://reddit.com/r/#{sr}/#{type}.json")
-  #   parsed_response = JSON.load(response)
-  #   parsed_response["data"]["children"].map do |reddit|
-  #     @story = { title: reddit["data"]["title"], category: reddit["data"]["subreddit"], upvotes:  }
-  #   end
-  # end
 
   def search
     @stories = Story.search_for params[:q]
