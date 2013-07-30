@@ -11,10 +11,13 @@ class StoriesController < ApplicationController
   end
   
   def store_from_reddit
-    @story = Story.get_remote_stories.collect do |reddit|
-      {title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]}
+    Story.get_remote_stories.each do |reddit|
+      @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
+      @story.save
+      #rescue statement to ensure the loop always finishes
+      #if it breaks display the error
+      #but move this all to the model
       end
-    @story = current_user.stories.build(story_params)
     if @story.save
       redirect_to @story
     else
@@ -38,6 +41,15 @@ class StoriesController < ApplicationController
 
   def search
     @stories = Story.search_for params[:q]
+  end
+
+  def destroy
+    @story = Story.find(params[:id])
+    if @story.present?
+      @story.destroy
+      flash[:notice] = "The story with link '#{@story.link}' has been removed"
+    end
+    redirect_to :action => 'index'
   end
 
 

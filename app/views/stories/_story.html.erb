@@ -5,6 +5,6 @@
   </header>
   <p>Upvotes: <%= story.upvotes %> | 
   Category: <%= story.category %> |
-  <%= link_to "Comments", story %></p>
+  <%= link_to "Comments", story %> | <%= link_to "Remove", story, method: :delete, data: { confirm: 'Are you sure?' } %></p>
   </li>
 </article>
