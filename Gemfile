@@ -40,6 +40,9 @@ end
 gem 'devise', '~>3.0.0rc'
 
 gem 'zurb-foundation'
+gem 'rest-client'
+gem 'json'
+gem 'awesome_print'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

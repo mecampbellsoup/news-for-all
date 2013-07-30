@@ -11,9 +11,12 @@ class StoriesController < ApplicationController
   end
   
   def store_from_reddit
-    @stories = Story.get_remote_stories
-    if @stories.save
-      redirect_to @stories
+    @story = Story.get_remote_stories.collect do |reddit|
+      {title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]}
+      end
+    @story = current_user.stories.build(story_params)
+    if @story.save
+      redirect_to @story
     else
       render :index
     end
@@ -24,8 +27,7 @@ class StoriesController < ApplicationController
   end
 
   def create
-    safe_story_params = params.require(:story).permit(:title, :link, :category)
-    @story = current_user.stories.build safe_story_params
+    @story = current_user.stories.build(story_params)
     @story.upvotes = 1
     if @story.save
       redirect_to @story
@@ -37,4 +39,12 @@ class StoriesController < ApplicationController
   def search
     @stories = Story.search_for params[:q]
   end
+
+
+private
+
+  def story_params
+    params.require(:story).permit(:title, :link, :category)
+  end
+
 end
