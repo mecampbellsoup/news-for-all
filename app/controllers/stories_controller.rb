@@ -14,18 +14,13 @@ class StoriesController < ApplicationController
     @subreddits = Story.get_subreddits
   end
 
-  def display_reddits #does this need an :id arg?
-    Story.get_remote_stories(params[:id]).collect do |reddit|
+  def display_reddits
+    Story.get_remote_stories(opts={:id =>params[:subreddit]}).collect do |reddit|
       @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
       #rescue statement to ensure the loop always finishes
       #if it breaks display the error
       #but move this all to the model
       end
-    #if @story.save
-      #redirect_to @stories
-    # else
-    #   render :index
-    # end
   end
 
   def new
