@@ -22,8 +22,8 @@ class Story < ActiveRecord::Base
     end
   end
 
-  def self.get_remote_stories(type=nil, sr="worldnews")
-    parsed_response = JSON.load(RestClient.get("http://reddit.com/r/#{sr}/#{type}.json"))
+def self.get_remote_stories opts={:type => nil, :id => "r/worldnews"}
+    parsed_response = JSON.load(RestClient.get("http://reddit.com/#{opts[:id]}/#{opts[:type]}.json"))
     parsed_response["data"]["children"].collect do |reddit|
       { title: reddit["data"]["title"], category: reddit["data"]["subreddit"], link: reddit["data"]["url"], upvotes: reddit["data"]["ups"] }
     end

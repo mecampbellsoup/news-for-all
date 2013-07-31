@@ -13,10 +13,7 @@
 	<tr>
 		<td><%= r[:name] %></td>
 		<td><a href=<%= "http://www.reddit.com#{r[:subreddit]}" %>><img src=<%= r[:image] %>></a></td>
-
-		<%= form_tag stories_new_reddit_path, method: :get do %>
-		<td><%= submit_tag r[:subreddit] %></td>
-		<% end %>
+		<td><%= link_to r[:name], reddit_add_path(r[:id]) %></td>
 	</tr>
   <% end %>
 </table>

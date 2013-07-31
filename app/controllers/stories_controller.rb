@@ -14,8 +14,8 @@ class StoriesController < ApplicationController
     @subreddits = Story.get_subreddits
   end
 
-  def reddits
-    Story.get_remote_stories.collect do |reddit|
+  def display_reddits #does this need an :id arg?
+    Story.get_remote_stories(params[:id]).collect do |reddit|
       @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
       #rescue statement to ensure the loop always finishes
       #if it breaks display the error
