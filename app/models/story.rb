@@ -18,7 +18,7 @@ class Story < ActiveRecord::Base
   def self.get_subreddits
     parsed_response = JSON.load(RestClient.get("http://reddit.com/reddits.json"))
     parsed_response["data"]["children"].collect do |subreddit|
-      { subreddit: subreddit["data"]["url"], image: subreddit["data"]["header_img"] }
+      { subreddit: subreddit["data"]["url"], image: subreddit["data"]["header_img"], name: subreddit["data"]["display_name"] }
     end
   end
 
