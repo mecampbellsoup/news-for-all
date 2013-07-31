@@ -1,0 +1,19 @@
+<h1 class="subheader">Choose your subreddit, the category of news you want...</h1>
+
+<%#= render partial: 'story' %>
+
+<table>
+	<tr>
+		<th>subreddit</th>
+		<th>.png</th>
+		<th>"select" buttons</th>
+	</tr>
+
+  <% @subreddits.each do |r| %>
+	<tr>
+		<td><%= r[:subreddit] %></td>
+		<td><a href=<%= "http://www.reddit.com#{r[:subreddit]}" %>><img src=<%= r[:image] %>></a></td>
+		<td>submit button here</td>
+	</tr>
+  <% end %>
+</table>

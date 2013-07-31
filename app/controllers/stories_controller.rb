@@ -10,19 +10,22 @@ class StoriesController < ApplicationController
     @comment = @story.comments.new
   end
   
-  def store_from_reddit
-    Story.get_remote_stories.each do |reddit|
+  def subreddits
+    @subreddits = Story.get_subreddits
+  end
+
+  def reddits
+    Story.get_remote_stories.collect do |reddit|
       @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
-      @story.save
       #rescue statement to ensure the loop always finishes
       #if it breaks display the error
       #but move this all to the model
       end
-    if @story.save
-      redirect_to @story
-    else
-      render :index
-    end
+    #if @story.save
+      #redirect_to @stories
+    # else
+    #   render :index
+    # end
   end
 
   def new

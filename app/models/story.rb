@@ -15,9 +15,16 @@ class Story < ActiveRecord::Base
     where('title LIKE :query OR category LIKE :query', query: "%#{query}%")
   end
 
+  def self.get_subreddits
+    parsed_response = JSON.load(RestClient.get("http://reddit.com/reddits.json"))
+    parsed_response["data"]["children"].collect do |subreddit|
+      { subreddit: subreddit["data"]["url"], image: subreddit["data"]["header_img"] }
+    end
+  end
+
   def self.get_remote_stories(type=nil, sr="worldnews")
     parsed_response = JSON.load(RestClient.get("http://reddit.com/r/#{sr}/#{type}.json"))
-    parsed_response["data"]["children"].map do |reddit|
+    parsed_response["data"]["children"].collect do |reddit|
       { title: reddit["data"]["title"], category: reddit["data"]["subreddit"], link: reddit["data"]["url"], upvotes: reddit["data"]["ups"] }
     end
   end

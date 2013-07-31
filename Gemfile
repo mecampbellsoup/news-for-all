@@ -3,8 +3,19 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
-# Use PostgreSQL as the database for Active Record
-gem 'pg'
+group :Development, :test do
+  gem 'sqlite3'
+end
+
+group :development do
+  gem "better_errors"
+end
+
+group :Production do
+  gem 'pg'
+end
+
+gem "binding_of_caller"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
