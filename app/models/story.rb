@@ -4,6 +4,8 @@ class Story < ActiveRecord::Base
   require 'json'
 
   validates :title, :link, :category, :upvotes, presence: true
+  validates :title, :link, uniqueness: true
+
   scope :popular, -> { where('upvotes >= ?', 4)}
   scope :recent, -> { where('created_at >= ?', Date.today)}
 
@@ -15,18 +17,12 @@ class Story < ActiveRecord::Base
     where('title LIKE :query OR category LIKE :query', query: "%#{query}%")
   end
 
-  def self.get_subreddits
-    parsed_response = JSON.load(RestClient.get("http://reddit.com/reddits.json"))
-    parsed_response["data"]["children"].each_with_index.collect do |subreddit,i|
-      { subreddit: subreddit["data"]["url"], image: subreddit["data"]["header_img"], name: subreddit["data"]["display_name"], id: i }
-    end
-  end
-
-def self.get_remote_stories opts={:type => nil, :id => "r/worldnews"}
-    parsed_response = JSON.load(RestClient.get("http://reddit.com/#{opts[:id]}/#{opts[:type]}.json"))
+  def self.get_remote_stories(subreddit="r/worldnews")
+    parsed_response = JSON.load(RestClient.get("http://reddit.com/#{subreddit}.json"))
     parsed_response["data"]["children"].collect do |reddit|
       { title: reddit["data"]["title"], category: reddit["data"]["subreddit"], link: reddit["data"]["url"], upvotes: reddit["data"]["ups"] }
     end
   end
+
 
 end

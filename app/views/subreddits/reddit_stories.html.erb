@@ -1,0 +1,29 @@
+<h2 class="subheader"><%=link_to "Save these stories to my Rewsly feed!", reddits_save_path, method: :post %></h2>
+
+<% if @reddits.empty? %>
+<p>There aren't any stories in that subreddit :(</p>
+<% end %>
+
+<% @reddits.each do |reddit| %>
+
+	<h1><%= reddit.title %></h1>
+	<p><%= link_to reddit.link, reddit.link %>
+	<p><%= link_to "Back to home page", root_path %></p>
+
+<% end %>
+
+
+<ul class="comments">
+  <% @reddit.comments.each do |comment| %>
+    <li><%= "#{comment.user.try(:email)} posted: #{comment.post}" %></li>
+  <% end %>
+</ul>
+
+
+<p></p>
+<p>
+	<%= link_to "Home ", root_path %>
+	<%= link_to " |  Add Custom Story", new_story_path %>
+</p>
+
+

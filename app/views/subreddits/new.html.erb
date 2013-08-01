@@ -1,0 +1,17 @@
+<h1 class="subheader">Choose your subreddit, the category of news you want...</h1>
+
+<table>
+	<tr>
+		<th>subreddit</th>
+		<th>.png</th>
+		<th>pick one</th>
+	</tr>
+
+  <% Subreddit.all.each do |r| %>
+	<tr>
+		<td><%= r[:name] %></td>
+		<td><a href=<%= "http://www.reddit.com#{r[:subreddit]}" %>><img src=<%= r[:image] %>></a></td>
+		<td><%= link_to r[:name], reddits_path(r[:id]) %></td>
+	</tr>
+  <% end %>
+</table>

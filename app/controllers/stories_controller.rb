@@ -10,18 +10,6 @@ class StoriesController < ApplicationController
     @comment = @story.comments.new
   end
   
-  def subreddits
-    @subreddits = Story.get_subreddits
-  end
-
-  def display_reddits
-    Story.get_remote_stories(opts={:id =>params[:subreddit]}).collect do |reddit|
-      @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
-      #rescue statement to ensure the loop always finishes
-      #if it breaks display the error
-      #but move this all to the model
-      end
-  end
 
   def new
     @story = Story.new
