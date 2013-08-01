@@ -11,18 +11,16 @@ class SubredditsController < ApplicationController
     end
   end
 
-  def create
-    @reddits = Story.new(params[:reddits])
-    @reddits.each do |reddit|
-      reddit.save
-    end
-    render 'stories/index'
-  end
-
   def reddit_stories
     @reddits = Story.get_remote_stories(Subreddit.find(params[:id])[:subreddit]).collect do |reddit|
-      @reddit = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
+      @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
+      if @story.save
+        @story
+      else
+        @story.destroy
+      end
     end
+    redirect_to stories_path
     #rescue statement to ensure the loop always finishes
     #if it breaks display the error
     #but move this all to the model
