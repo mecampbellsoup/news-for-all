@@ -1,4 +1,5 @@
 class SubredditsController < ApplicationController  
+  before_action :authenticate_user!, only: [:new, :reddit_stories]
 
   def new
     @subreddits = Subreddit.get_subreddits.collect do |subreddit|
@@ -12,8 +13,8 @@ class SubredditsController < ApplicationController
   end
 
   def reddit_stories
-    @reddits = Story.get_remote_stories(Subreddit.find(params[:id])[:subreddit]).collect do |reddit|
-      @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category]})
+    @stories = Story.get_remote_stories(Subreddit.find(params[:id])[:subreddit]).collect do |reddit|
+      @story = Story.new({title: reddit[:title], link: reddit[:link], upvotes: reddit[:upvotes], category: reddit[:category], user_id: current_user.id})
       if @story.save
         @story
       else
@@ -27,10 +28,10 @@ class SubredditsController < ApplicationController
     
   end
   
-private
+# private
 
-  def subreddit_params
-    params.require(:subreddit).permit(:name, :image, :subreddit)
-  end
+#   def subreddit_params
+#     params.require(:subreddit).permit(:name, :image, :subreddit)
+#   end
 
 end
