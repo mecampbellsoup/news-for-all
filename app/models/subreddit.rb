@@ -1,4 +1,4 @@
-class Subreddit < ActiveRecord::Base
+  class Subreddit < ActiveRecord::Base
 
   require 'rest_client'
   require 'json'
